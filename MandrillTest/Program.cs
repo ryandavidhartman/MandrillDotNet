@@ -11,7 +11,7 @@ namespace MandrilDotNet
         {
             try
             {
-                var madrilTest = new MandrillAPI("uKVPH3OmNPw4h-iw0PSuHA", "https://mandrillapp.com/api/1.0");
+                var madrilTest = new MandrillAPI("uKVPH3OmNPw4h-iw0PSuHA", "http://mandrillapp.com/api/1.0");
                 var ping = madrilTest.Ping();
                 Console.WriteLine("Ping returns: " + ping);
                 var info = madrilTest.Info();
@@ -20,7 +20,7 @@ namespace MandrilDotNet
                 var sendData = madrilTest.GetSenderData();
                 foreach (var sender in sendData)
                 {
-                    Console.WriteLine(string.Format("Sender:{0} Create Date:{1} Opens:{2}", sender.address, sender.created_at, sender.opens));
+                    Console.WriteLine(string.Format("Sender:{0} Create Date:{1} Opens:{2}", sender.Address, sender.CreatedAt, sender.Opens));
                 }
 
                 var templates = madrilTest.GetTemplates();
@@ -47,23 +47,37 @@ namespace MandrilDotNet
                     Console.WriteLine("No template email send results: " + sendEmailResponse.status);
                 }*/
 
+                 
                 var message = new EmailMessage
-                {
-                    to = new List<EmailAddress> { new EmailAddress { email = "ryandavidhartman@gmail.com", name = "Andrew" } },
-                    from_email = "rhartman@omnisite.com",
-                };
-
-                var tc = new List<TemplateContent>
                     {
-                        new TemplateContent
-                            {
-                                name = "main",
-                                content = string.Format("This is dynamic content!!! {0}", DateTime.UtcNow)
-                            },
-                        new TemplateContent {name = "customer_name", content = "Bob Smith"}
+                        To =
+                            new List<EmailAddress>
+                                {
+                                    new EmailAddress {Email = "ryandavidhartman@gmail.com", Name = "Ryan"}
+                                },
+                        FromEmail = "rhartman@omnisite.com",
+                        FromName =  "Ryan Hartman",
+                        Html = null,
+                        Text = null
                     };
 
-                var sendResponses = madrilTest.SendEmail(message, "testtemplate", tc);
+
+                //string to = "ryandavidhartman@gmail.com";
+                message.AddGlobalVariable("customername", "Bob Smith");
+                message.AddGlobalVariable("orderdate", DateTime.Now.Date.ToShortDateString());
+                message.AddGlobalVariable("invoicedetails", "SMS Data fee $19.99");
+                message.Merge = true;
+
+                
+                var tc = new List<TemplateContent>
+                    {
+                        new TemplateContent {Name = "footer", Content = "Contact us at sales@pumpalarm.com"}
+                      
+                    };
+
+                var sendResponses = madrilTest.SendEmail(message, "invoicetemplate", tc);
+
+                
                 foreach (var sendEmailResponse in sendResponses)
                 {
                     Console.WriteLine("Templated email send results: " + sendEmailResponse.status);

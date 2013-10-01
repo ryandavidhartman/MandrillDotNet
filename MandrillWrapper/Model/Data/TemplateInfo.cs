@@ -1,5 +1,6 @@
 ﻿namespace MandrillWrapper.Model.Data
 {
+    
     public class TemplateInfo
     {
          public string slug { get; set; }

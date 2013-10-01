@@ -1,16 +1,11 @@
-﻿using System.Runtime.Serialization;
+﻿
+using System.Runtime.Serialization;
 
-namespace MandrillWrapper.Model.Data
+namespace MandrillWrapper.Model
 {
-    [DataContract(Name = "sender_data")]
-    public class SenderData
+    [DataContract(Name="sending_stats")]
+    public class SendingStatistics
     {
-        [DataMember(Name = "address")]
-        public string Address { get; set; }
-
-        [DataMember(Name = "created_at")]
-        public string CreatedAt { get; set; }
-
         [DataMember(Name = "send")]
         public string Sent { get; set; }
 
@@ -40,5 +35,6 @@ namespace MandrillWrapper.Model.Data
 
         [DataMember(Name = "unique_clicks")]
         public int UniqueClicks { get; set; }
+       
     }
 }

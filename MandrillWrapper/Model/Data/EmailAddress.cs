@@ -1,31 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace MandrillWrapper.Model.Data
 {
+    [DataContract(Name = "email_address")]
     public class EmailAddress
     {
-        public string email { get; set; }
+        [DataMember(Name = "email")]
+        public string Email { get; set; }
 
-        public string name { get; set; }
+        [DataMember(Name = "name")]
+        public string Name { get; set; }
+
 
         public EmailAddress()
         {
         }
 
+
         public EmailAddress(string email)
         {
-            this.email = email;
-            this.name = "";
+            Email = email;
+            Name = "";
         }
+
 
         public EmailAddress(string email, string name)
         {
-            this.email = email;
-            this.name = name;
+            Email = email;
+            Name = name;
         }
     }
 }

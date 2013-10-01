@@ -59,6 +59,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -67,21 +68,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MandrillAPI.cs" />
-    <Compile Include="Model\Data\attachment.cs" />
+    <Compile Include="Model\Data\Attachment.cs" />
     <Compile Include="Model\Data\Days.cs" />
     <Compile Include="Model\Data\EmailAddress.cs" />
     <Compile Include="Model\Data\EmailMessage.cs" />
-    <Compile Include="Model\Data\image.cs" />
-    <Compile Include="Model\Data\merge_var.cs" />
-    <Compile Include="Model\Data\rcpt_merge_var.cs" />
-    <Compile Include="Model\Data\rcpt_metadata.cs" />
+    <Compile Include="Model\Data\Image.cs" />
+    <Compile Include="Model\Data\MergeVeriable.cs" />
+    <Compile Include="Model\Data\RecipientMergeVariables.cs" />
+    <Compile Include="Model\Data\RecipientMetadata.cs" />
     <Compile Include="Model\Data\SenderData.cs" />
     <Compile Include="Model\Data\TemplateContent.cs" />
     <Compile Include="Model\Data\TemplateInfo.cs" />
     <Compile Include="Model\Data\UserInformation.cs" />
     <Compile Include="Model\Requests\Request.cs" />
     <Compile Include="Model\Requests\SendEmailRequest.cs" />
-    <Compile Include="Model\Data\SendingStats.cs" />
+    <Compile Include="Model\Data\SendingStatistics.cs" />
     <Compile Include="Model\Requests\SendEmailWithTemplateRequest.cs" />
     <Compile Include="Model\Responses\SendEmailResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

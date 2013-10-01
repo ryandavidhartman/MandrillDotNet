@@ -1,9 +1,17 @@
-﻿namespace MandrillWrapper.Model.Data
+﻿using System.Runtime.Serialization;
+
+namespace MandrillWrapper.Model.Data
 {
-    public struct image
+    [DataContract(Name = "image")]
+    public class Image
     {
-        public string type;
-        public string name;
-        public string content;
+        [DataMember(Name = "type")]
+        public string Type { get; set; }
+
+        [DataMember(Name = "name")]
+        public string Name { get; set; }
+
+        [DataMember(Name = "content")]
+        public string Content { get; set; }
     }
 }

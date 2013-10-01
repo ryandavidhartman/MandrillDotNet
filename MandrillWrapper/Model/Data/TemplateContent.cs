@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
 
 namespace MandrillWrapper.Model.Data
 {
+    [DataContract(Name = "template_content")]
     public class TemplateContent
     {
-        public string content { get; set; }
-        public string name { get; set; }
+        [DataMember(Name = "name", Order = 1)]
+        public string Name { get; set; }
+        
+        [DataMember(Name = "content", Order = 2)]
+        public string Content { get; set; }
     }
 }

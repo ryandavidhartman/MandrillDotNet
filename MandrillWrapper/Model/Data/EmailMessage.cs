@@ -1,92 +1,143 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using ServiceStack.Text;
 
 namespace MandrillWrapper.Model.Data
 {
+    [DataContract(Name = "email_message")]
     public class EmailMessage
     {
-        public string html { get; set; }
-        public string text { get; set; }
-        public string subject { get; set; }
-        public string from_email { get; set; }
-        public string from_name { get; set; }
-        public IEnumerable<EmailAddress> to { get; set; }
-        public JsonObject headers { get; private set; }
-        public bool track_opens { get; set; }
-        public bool track_clicks { get; set; }
-        public bool auto_text { get; set; }
-        public bool url_strip_qs { get; set; }
-        public bool preserve_recipients { get; set; }
-        public string bcc_address { get; set; }
-        public bool merge { get; set; }
-        public bool important { get; set; }
-        public List<merge_var> global_merge_vars { get; private set; }
-        public List<rcpt_merge_var> merge_vars { get; private set; }
-        public IEnumerable<string> tags { get; set; }
-        public IEnumerable<string> google_analytics_domains { get; set; }
-        public string google_analytics_campaign { get; set; }
-        public JsonObject metadata { get; private set; }
-        public IEnumerable<rcpt_metadata> recipient_metadata { get; set; }
-        public IEnumerable<attachment> attachments { get; set; }
-        public IEnumerable<image> images { get; set; }
-        public string raw_message { get; set; }
+        [DataMember(Name = "html")]
+        public string Html { get; set; }
+
+        [DataMember(Name = "text")]
+        public string Text { get; set; }
+
+        [DataMember(Name = "subject")]
+        public string Subject { get; set; }
+
+        [DataMember(Name = "from_email")]
+        public string FromEmail { get; set; }
+
+        [DataMember(Name = "from_name")]
+        public string FromName { get; set; }
+
+        [DataMember(Name = "to")]
+        public IEnumerable<EmailAddress> To { get; set; }
+
+        [DataMember(Name = "headers")]
+        public JsonObject Headers { get; private set; }
+
+        [DataMember(Name = "track_opens")]
+        public bool TrackOpens { get; set; }
+
+        [DataMember(Name = "track_clicks")]
+        public bool TrackClicks { get; set; }
+
+        [DataMember(Name = "auto_text")]
+        public bool AutoText { get; set; }
+
+        [DataMember(Name = "url_strip_qs")]
+        public bool UrlStripQs { get; set; }
+
+        [DataMember(Name = "preserve_recipients")]
+        public bool PreserveRecipients { get; set; }
+
+        [DataMember(Name = "bcc_address")]
+        public string BccAddress { get; set; }
+
+        [DataMember(Name = "merge")]
+        public bool Merge { get; set; }
+
+        [DataMember(Name = "important")]
+        public bool Important { get; set; }
+
+        [DataMember(Name = "global_merge_vars")]
+        public List<MergeVariable> GlobalMergeVars { get; private set; }
+
+        [DataMember(Name = "merge_vars")]
+        public List<RecipientMergeVariables> MergeVars { get; private set; }
+
+        [DataMember(Name = "tags")]
+        public IEnumerable<string> Tags { get; set; }
+
+        [DataMember(Name = "google_analytics_domains")]
+        public IEnumerable<string> GoogleAnalyticsDomains { get; set; }
+
+        [DataMember(Name = "google_analytics_campaign")]
+        public string GoogleAnalyticsCampaign { get; set; }
+
+        [DataMember(Name = "metadata")]
+        public JsonObject Metadata { get; private set; }
+
+        [DataMember(Name = "recipient_metadata")]
+        public IEnumerable<RecipientMetadata> RecipientMetadata { get; set; }
+
+        [DataMember(Name = "attachments")]
+        public IEnumerable<Attachment> Attachments { get; set; }
+
+        [DataMember(Name = "images")]
+        public IEnumerable<Image> Images { get; set; }
+
+         [DataMember(Name = "raw_message")]
+        public string RawMessage { get; set; }
 
         public void AddGlobalVariable(string name, string content)
         {
-            if (global_merge_vars == null)
+            if (GlobalMergeVars == null)
             {
-                global_merge_vars = new List<merge_var>();
+                GlobalMergeVars = new List<MergeVariable>();
             }
 
-            var mv = new merge_var()
-            {
-                name = name,
-                content = content
+            var mv = new MergeVariable
+                {
+                Name = name,
+                Content = content
             };
-            global_merge_vars.Add(mv);
+            GlobalMergeVars.Add(mv);
         }
 
         public void AddHeader(string name, string value)
         {
-            if (this.headers == null)
+            if (Headers == null)
             {
-                this.headers = new JsonObject();
+                Headers = new JsonObject();
             }
 
-            this.headers[name] = value;
+            Headers[name] = value;
         }
 
         public void AddRecipientVariable(string recipient, string name, string content)
         {
-            if (merge_vars == null)
+            if (MergeVars == null)
             {
-                merge_vars = new List<rcpt_merge_var>();
+                MergeVars = new List<RecipientMergeVariables>();
             }
 
-            var entry = merge_vars.Where(e => e.rcpt == recipient).FirstOrDefault();
+            var entry = MergeVars.FirstOrDefault(e => e.Recipient == recipient);
             if (entry == null)
             {
-                entry = new rcpt_merge_var{rcpt = recipient};
-                merge_vars.Add(entry);
+                entry = new RecipientMergeVariables{Recipient = recipient};
+                MergeVars.Add(entry);
             }
 
-            var mv = new merge_var()
-            {
-                name = name,
-                content = content
+            var mv = new MergeVariable
+                {
+                Name = name,
+                Content = content
             };
 
-            entry.vars.Add(mv);
+            entry.MergeVariables.Add(mv);
         }
 
         public void AddMetadata(string key, string value)
         {
-            if (this.metadata == null)
+            if (Metadata == null)
             {
-                this.metadata = new JsonObject();
+                Metadata = new JsonObject();
             }
-            this.metadata[key] = value;
+            Metadata[key] = value;
         }
     }
 }

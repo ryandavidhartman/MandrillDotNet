@@ -1,20 +1,29 @@
 ﻿
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
+
 namespace MandrillWrapper.Model.Data
 {
+    [DataContract(Name = "days")]
     public class Days
     {
+        [DataMember(Name = "today")]
+        public SendingStatistics Today { get; set; }
 
-        public SendingStats today { get; set; }
+        [DataMember(Name = "last_7_days")]
+        public SendingStatistics Last7Days { get; set; }
 
-        public SendingStats last_7_days { get; set; }
+        [DataMember(Name = "last_30_days")]
+        public SendingStatistics Last30Days { get; set; }
 
-        public SendingStats last_30_days { get; set; }
+        [DataMember(Name = "last_60_days")]
+        public SendingStatistics Last60Days { get; set; }
 
-        public SendingStats last_60_days { get; set; }
+        [DataMember(Name = "last_90_days")]
+        public SendingStatistics Last90Days { get; set; }
 
-        public SendingStats last_90_days { get; set; }
-
-        public SendingStats all_time { get; set; }
+        [DataMember(Name = "all_time")]
+        public SendingStatistics AllTime { get; set; }
 
     }
 }
