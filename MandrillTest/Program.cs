@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MandrillWrapper;
+using MandrillWrapper.Model.Requests;
 using MandrillWrapper.Model.Responses;
 
 namespace MandrilDotNet
@@ -11,8 +12,9 @@ namespace MandrilDotNet
         {
             Action<string> asyncPingHandler = PingHandler;
             Action<InfoResponse> asyncInfoHandler = InfoHandler;
-            Action<List<SenderDataResponse>> asyncSenderDataHandler = SenderDataHandler; 
-            
+            Action<List<SenderDataResponse>> asyncSenderDataHandler = SenderDataHandler;
+
+
             try
             {
                 var madrilTest = new MandrillAPI("uKVPH3OmNPw4h-iw0PSuHA", "https://mandrillapp.com/api/1.0");
@@ -23,21 +25,37 @@ namespace MandrilDotNet
 
                 //var info = madrilTest.Info();
                 //Console.WriteLine(info.Username);
-                
+
                 /*
                 var senderDataResponses = madrilTest.GetSenderData();
                 foreach (var sender in senderDataResponses)
                 {
                     Console.WriteLine(string.Format("Sender:{0} Create Date:{1} Opens:{2}", sender.Address, sender.CreatedAt, sender.Opens));
-                }
-
-                var templates = madrilTest.GetTemplates();
-                foreach (var templateInfo in templates)
-                {
-                    Console.WriteLine(templateInfo.name);
                 }*/
 
-                
+
+                var newTemplate = new PostTemplateRequest
+                    {
+                        TemplateName = "TestTemplate101",
+                        FromEmail = "rhartman@omnisite.com",
+                        FromName = "Ryan Hartman",
+                        Subject = "My fancy template",
+                        Code = "<strong>Here is some html for the email body</strong>",
+                        Text = "Here is some plain text for the body",
+                        Publish = true
+                    };
+
+
+                var response = madrilTest.AddTemplate(newTemplate);
+                Console.WriteLine(response.Slug);
+
+                var templates = madrilTest.GetTemplates(new GetTemplatesRequest());
+                foreach (var templateInfo in templates)
+                {
+                    Console.WriteLine("Template Name: {0} Slug: {1}", templateInfo.TemplateName, templateInfo.Slug);
+                }
+
+
 
                 /*
                 var message = new EmailMessage
@@ -94,13 +112,14 @@ namespace MandrilDotNet
 
 
                 // async
+                /*
                 Console.WriteLine("1");
-                madrilTest.PingAsync(asyncPingHandler);
+                madrilTest.PingAsync(new PingRequest(), asyncPingHandler);
                 Console.WriteLine("2");
-                madrilTest.InfoAsync(asyncInfoHandler);
+                madrilTest.InfoAsync(new GetInfoRequest(), asyncInfoHandler);
                 Console.WriteLine("3");
-                madrilTest.GetSenderDataAsync(asyncSenderDataHandler);
-                Console.WriteLine("4");
+                madrilTest.GetSenderDataAsync(new SenderDataRequest(), asyncSenderDataHandler);
+                Console.WriteLine("4");*/
 
 
                 Console.ReadLine();
@@ -115,7 +134,7 @@ namespace MandrilDotNet
 
         public static void PingHandler(string response)
         {
-            if( response != null && "\"PONG!\"".Equals(response))
+            if (response != null && "\"PONG!\"".Equals(response))
                 Console.WriteLine("Ping Success");
             else
                 Console.WriteLine("Ping Failure");

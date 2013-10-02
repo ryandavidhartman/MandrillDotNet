@@ -1,10 +1,16 @@
-﻿using MandrillWrapper.Model.Data;
+﻿using System.Runtime.Serialization;
+using MandrillWrapper.Model.Data;
 
 namespace MandrillWrapper.Model.Requests
 {
-    public class SendEmailRequest
+    
+    [DataContract(Name = "send_email_request")]
+    public class SendEmailRequest : IRequest
     {
-        public string key { get; set; }
-        public EmailMessage message { get; set; }
+        [DataMember(Name = "key")]
+        public string Key { get; set; }
+
+        [DataMember(Name = "message")]
+        public EmailMessage Message { get; set; }
     }
 }

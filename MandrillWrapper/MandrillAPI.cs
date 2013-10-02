@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using MandrillWrapper.Model.Data;
 using MandrillWrapper.Model.Requests;
 using MandrillWrapper.Model.Responses;
 using ServiceStack.ServiceClient.Web;
+using ServiceStack.Text;
 
 namespace MandrillWrapper
 {
@@ -20,54 +22,70 @@ namespace MandrillWrapper
             RestClient = new JsonServiceClient(_url);
         }
 
-        public bool Ping()
+        public bool Ping(PingRequest request)
         {
-            var pingRequest = new PingRequest {Key = _key};
-            var response = RestClient.Post<string>("/users/ping.json", pingRequest);
+            AddKeyToRequest(request);
+            
+            var response = RestClient.Post<string>("/users/ping.json", request);
             return response != null && "\"PONG!\"".Equals(response);
         }
 
-        public void PingAsync(Action<string> pingHandler)
+        public void PingAsync(PingRequest request, Action<string> pingHandler)
         {
-            var pingRequest = new PingRequest { Key = _key };
-            RestClient.PostAsync("/users/ping.json", pingRequest, pingHandler, (r, ex) => { throw ex; });
+            AddKeyToRequest(request);
+            RestClient.PostAsync("/users/ping.json", request, pingHandler, (r, ex) => { throw ex; });
         }
 
-        public InfoResponse Info()
+        public InfoResponse Info(GetInfoRequest request)
         {
-            var infoRequest = new InfoRequest { Key = _key };
-            var response = RestClient.Post<InfoResponse>("/users/info.json", infoRequest);
+            AddKeyToRequest(request);
+            var response = RestClient.Post<InfoResponse>("/users/info.json", request);
             return response;
         }
 
-        public void InfoAsync(Action<InfoResponse> infoHandler)
+        public void InfoAsync(GetInfoRequest request, Action<InfoResponse> infoHandler)
         {
-            var infoRequest = new InfoRequest { Key = _key };
-            RestClient.PostAsync("/users/info.json", infoRequest, infoHandler, (r, ex) => { throw ex; });
+            AddKeyToRequest(request);
+            RestClient.PostAsync("/users/info.json", request, infoHandler, (r, ex) => { throw ex; });
         }
 
-        public List<SenderDataResponse> GetSenderData()
+        public List<SenderDataResponse> GetSenderData(SenderDataRequest request)
         {
-            var senderDataRequest = new SenderDataRequest {Key = _key};
-            var senderData = RestClient.Post<List<SenderDataResponse>>("/users/senders.json", senderDataRequest );
+            AddKeyToRequest(request);
+            var senderData = RestClient.Post<List<SenderDataResponse>>("/users/senders.json", request );
             return senderData;
         }
 
-        public void GetSenderDataAsync(Action<List<SenderDataResponse>> senderDataHandler)
+        public void GetSenderDataAsync(SenderDataRequest request, Action<List<SenderDataResponse>> senderDataHandler)
         {
-            var senderDataRequest = new SenderDataRequest { Key = _key };
-            RestClient.PostAsync<List<SenderDataResponse>>("/users/senders.json", senderDataRequest, senderDataHandler, (r, ex) => { throw ex; });
+            AddKeyToRequest(request);
+            RestClient.PostAsync("/users/senders.json", request, senderDataHandler, (r, ex) => { throw ex; });
         }
 
-        public List<TemplateInfo> GetTemplates()
+        public Template AddTemplate(PostTemplateRequest request)
         {
-            var templates = RestClient.Post<List<TemplateInfo>>("/templates/list.json", new Request { Key = _key });
+            AddKeyToRequest(request);
+            var template = RestClient.Post<Template>("/templates/add.json", request);
+            return template;
+            
+        }
+
+        public void AddTemplateAsync(PostTemplateRequest request, Action<Template> addTemplateHandler)
+        {
+            AddKeyToRequest(request);
+            RestClient.PostAsync("/templates/add.json", request, addTemplateHandler, (r, ex) => { throw ex; });
+        }
+
+        public List<Template> GetTemplates(GetTemplatesRequest request)
+        {
+            AddKeyToRequest(request);
+            var templates = RestClient.Post<List<Template>>("/templates/list.json", request);
             return templates;
         }
 
-        public List<SendEmailResponse> SendEmail(EmailMessage message)
+        public List<SendEmailResponse> SendEmail(SendEmailRequest request)
         {
-            var request = new SendEmailRequest {key = _key, message = message};
+            AddKeyToRequest(request);
             var response = RestClient.Post<List<SendEmailResponse>>("/messages/send.json", request);
             return response;
         }
@@ -77,6 +95,12 @@ namespace MandrillWrapper
             var request = new SendEmailWithTemplateRequest { key = _key, message = message, template_name  = templateName, template_content = templateContent};
             var response = RestClient.Post<List<SendEmailResponse>>("/messages/send-template.json", request);
             return response;
+        }
+
+        public void AddKeyToRequest(IRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Key))
+                request.Key = _key;
         }
     }
 }

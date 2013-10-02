@@ -77,11 +77,12 @@
     <Compile Include="Model\Data\RecipientMergeVariables.cs" />
     <Compile Include="Model\Data\RecipientMetadata.cs" />
     <Compile Include="Model\Data\TemplateContent.cs" />
-    <Compile Include="Model\Data\TemplateInfo.cs" />
-    <Compile Include="Model\Requests\InfoRequest.cs" />
+    <Compile Include="Model\Data\Template.cs" />
+    <Compile Include="Model\Requests\GetTemplatesRequest.cs" />
+    <Compile Include="Model\Requests\GetInfoRequest.cs" />
     <Compile Include="Model\Requests\IRequest.cs" />
     <Compile Include="Model\Requests\PingRequest.cs" />
-    <Compile Include="Model\Requests\Request.cs" />
+    <Compile Include="Model\Requests\PostTemplateRequest.cs" />
     <Compile Include="Model\Requests\SendEmailRequest.cs" />
     <Compile Include="Model\Data\SendingStatistics.cs" />
     <Compile Include="Model\Requests\SendEmailWithTemplateRequest.cs" />
