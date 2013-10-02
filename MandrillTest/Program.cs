@@ -1,24 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using MandrillWrapper;
-using MandrillWrapper.Model.Data;
+using MandrillWrapper.Model.Responses;
 
 namespace MandrilDotNet
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
+            Action<string> asyncPingHandler = PingHandler;
+            Action<InfoResponse> asyncInfoHandler = InfoHandler;
+            Action<List<SenderDataResponse>> asyncSenderDataHandler = SenderDataHandler; 
+            
             try
             {
-                var madrilTest = new MandrillAPI("uKVPH3OmNPw4h-iw0PSuHA", "http://mandrillapp.com/api/1.0");
-                var ping = madrilTest.Ping();
-                Console.WriteLine("Ping returns: " + ping);
-                var info = madrilTest.Info();
-                Console.WriteLine(info.username);
+                var madrilTest = new MandrillAPI("uKVPH3OmNPw4h-iw0PSuHA", "https://mandrillapp.com/api/1.0");
 
-                var sendData = madrilTest.GetSenderData();
-                foreach (var sender in sendData)
+
+                //var ping = madrilTest.Ping();
+                //Console.WriteLine("Ping returns: " + ping);
+
+                //var info = madrilTest.Info();
+                //Console.WriteLine(info.Username);
+                
+                /*
+                var senderDataResponses = madrilTest.GetSenderData();
+                foreach (var sender in senderDataResponses)
                 {
                     Console.WriteLine(string.Format("Sender:{0} Create Date:{1} Opens:{2}", sender.Address, sender.CreatedAt, sender.Opens));
                 }
@@ -27,9 +35,9 @@ namespace MandrilDotNet
                 foreach (var templateInfo in templates)
                 {
                     Console.WriteLine(templateInfo.name);
-                }
+                }*/
 
-
+                
 
                 /*
                 var message = new EmailMessage
@@ -46,7 +54,7 @@ namespace MandrilDotNet
                 {
                     Console.WriteLine("No template email send results: " + sendEmailResponse.status);
                 }*/
-
+                /*
                  
                 var message = new EmailMessage
                     {
@@ -80,8 +88,19 @@ namespace MandrilDotNet
                 
                 foreach (var sendEmailResponse in sendResponses)
                 {
-                    Console.WriteLine("Templated email send results: " + sendEmailResponse.status);
+                    Console.WriteLine("Templated email send results: " + sendEmailResponse.Status);
                 }
+                */
+
+
+                // async
+                Console.WriteLine("1");
+                madrilTest.PingAsync(asyncPingHandler);
+                Console.WriteLine("2");
+                madrilTest.InfoAsync(asyncInfoHandler);
+                Console.WriteLine("3");
+                madrilTest.GetSenderDataAsync(asyncSenderDataHandler);
+                Console.WriteLine("4");
 
 
                 Console.ReadLine();
@@ -92,6 +111,27 @@ namespace MandrilDotNet
                 Console.ReadLine();
             }
 
+        }
+
+        public static void PingHandler(string response)
+        {
+            if( response != null && "\"PONG!\"".Equals(response))
+                Console.WriteLine("Ping Success");
+            else
+                Console.WriteLine("Ping Failure");
+        }
+
+        public static void InfoHandler(InfoResponse info)
+        {
+            Console.WriteLine("{0} has an hourly quota of {1} emails", info.Username, info.HourlyQuota);
+        }
+
+        private static void SenderDataHandler(List<SenderDataResponse> senderDataResponses)
+        {
+            foreach (var sender in senderDataResponses)
+            {
+                Console.WriteLine(string.Format("Sender:{0} Create Date:{1} Opens:{2}", sender.Address, sender.CreatedAt, sender.Opens));
+            }
         }
     }
 }

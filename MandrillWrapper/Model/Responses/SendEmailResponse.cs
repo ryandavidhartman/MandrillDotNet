@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace MandrillWrapper.Model.Responses
@@ -12,16 +13,20 @@ namespace MandrillWrapper.Model.Responses
         Scheduled
     }
 
+    [DataContract(Name = "send_email_response")]
     public class SendEmailResponse
     {
-        public string email { get; set; }
+        [DataMember(Name = "email")]
+        public string Email { get; set; }
 
+        [DataMember(Name = "status")]
         [JsonConverter(typeof(StringEnumConverter))]
-        public EmailResultStatus status { get; set; }
+        public EmailResultStatus Status { get; set; }
 
-        public string reject_reason { get; set; }
+        [DataMember(Name = "reject_reason")]
+        public string RejectReason { get; set; }
 
-        [JsonProperty("_id")]
+        [DataMember(Name = "_id")]
         public string Id { get; set; }
     }
 }

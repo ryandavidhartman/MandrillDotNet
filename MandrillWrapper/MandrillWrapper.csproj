@@ -76,15 +76,19 @@
     <Compile Include="Model\Data\MergeVeriable.cs" />
     <Compile Include="Model\Data\RecipientMergeVariables.cs" />
     <Compile Include="Model\Data\RecipientMetadata.cs" />
-    <Compile Include="Model\Data\SenderData.cs" />
     <Compile Include="Model\Data\TemplateContent.cs" />
     <Compile Include="Model\Data\TemplateInfo.cs" />
-    <Compile Include="Model\Data\UserInformation.cs" />
+    <Compile Include="Model\Requests\InfoRequest.cs" />
+    <Compile Include="Model\Requests\IRequest.cs" />
+    <Compile Include="Model\Requests\PingRequest.cs" />
     <Compile Include="Model\Requests\Request.cs" />
     <Compile Include="Model\Requests\SendEmailRequest.cs" />
     <Compile Include="Model\Data\SendingStatistics.cs" />
     <Compile Include="Model\Requests\SendEmailWithTemplateRequest.cs" />
+    <Compile Include="Model\Requests\SenderDataRequest.cs" />
+    <Compile Include="Model\Responses\InfoResponse.cs" />
     <Compile Include="Model\Responses\SendEmailResponse.cs" />
+    <Compile Include="Model\Responses\SenderDataResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

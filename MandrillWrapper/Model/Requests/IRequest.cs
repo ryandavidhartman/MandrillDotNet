@@ -2,11 +2,9 @@
 
 namespace MandrillWrapper.Model.Requests
 {
-   
-    [DataContract(Name = "request")]
-    public class Request : IRequest
+    public interface IRequest
     {
         [DataMember(Name = "key")]
-        public string Key { get; set; }
+        string Key { get; set; }
     }
 }
