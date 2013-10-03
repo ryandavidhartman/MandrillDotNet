@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MandrillWrapper;
+using MandrillWrapper.Model.Data;
 using MandrillWrapper.Model.Requests;
 using MandrillWrapper.Model.Responses;
 
@@ -11,32 +12,32 @@ namespace MandrilDotNet
         static void Main()
         {
             Action<string> asyncPingHandler = PingHandler;
-            Action<InfoResponse> asyncInfoHandler = InfoHandler;
+            Action<GetInfoResponse> asyncInfoHandler = InfoHandler;
             Action<List<SenderDataResponse>> asyncSenderDataHandler = SenderDataHandler;
+            Action<List<SendEmailResponse>> asnySendEmailHandler = SendEmailHandler;
 
 
             try
             {
                 var madrilTest = new MandrillAPI("uKVPH3OmNPw4h-iw0PSuHA", "http://mandrillapp.com/api/1.0");
 
-
+                /*
                 var ping = madrilTest.Ping(new PingRequest());
                 Console.WriteLine("Ping returns: " + ping);
 
-                //var info = madrilTest.Info();
-                //Console.WriteLine(info.Username);
+                var getInfo = madrilTest.GetInfo(new GetInfoRequest());
+                Console.WriteLine(getInfo.Username);
 
-                /*
-                var senderDataResponses = madrilTest.GetSenderData();
+                
+                var senderDataResponses = madrilTest.GetSenderData(new GetSenderDataRequest());
                 foreach (var sender in senderDataResponses)
                 {
                     Console.WriteLine(string.Format("Sender:{0} Create Date:{1} Opens:{2}", sender.Address, sender.CreatedAt, sender.Opens));
-                }*/
-
+                }
 
                 var newTemplate = new PostTemplateRequest
                     {
-                        TemplateName = "TestTemplate101",
+                        TemplateName = "Dummy Template",
                         FromEmail = "rhartman@omnisite.com",
                         FromName = "Ryan Hartman",
                         Subject = "My fancy template",
@@ -46,16 +47,21 @@ namespace MandrilDotNet
                     };
 
 
-             //   var response = madrilTest.AddTemplate(newTemplate);
-             //   Console.WriteLine(response.Slug);
+                var response = madrilTest.PostTemplate(newTemplate);
+                Console.WriteLine(response.Slug);
 
+
+                response = madrilTest.PutTemplate(new PutTemplateRequest { TemplateName = "Dummy Template", Code = "<strong>Updated!</strong>" });
+                Console.WriteLine(response.Code);
+                Console.ReadLine();
+
+                var results = madrilTest.DeleteTemplate(new DeleteTemplateRequest {TemplateName = "Dummy Template"});
+               
                 var templates = madrilTest.GetTemplates(new GetTemplatesRequest());
                 foreach (var templateInfo in templates)
                 {
                     Console.WriteLine("Template Name: {0} Slug: {1}", templateInfo.TemplateName, templateInfo.Slug);
                 }
-
-
 
                 /*
                 var message = new EmailMessage
@@ -112,16 +118,27 @@ namespace MandrilDotNet
 
 
                 // async
-                /*
+                
                 Console.WriteLine("1");
                 madrilTest.PingAsync(new PingRequest(), asyncPingHandler);
                 Console.WriteLine("2");
-                madrilTest.InfoAsync(new GetInfoRequest(), asyncInfoHandler);
+                madrilTest.GetInfoAsync(new GetInfoRequest(), asyncInfoHandler);
                 Console.WriteLine("3");
-                madrilTest.GetSenderDataAsync(new SenderDataRequest(), asyncSenderDataHandler);
-                Console.WriteLine("4");*/
+                madrilTest.GetSenderDataAsync(new GetSenderDataRequest(), asyncSenderDataHandler);
+                Console.WriteLine("4");
 
+                var message = new EmailMessage
+                {
+                    To = new List<EmailAddress> { new EmailAddress { Email = "ryandavidhartman@gmail.com", Name = "Ryan Hartman" } },
+                    FromEmail = "rhartman@omnisite.com",
+                    Subject = "Mandril Test Email",
+                    Html = "<strong>Html email in the house!</strong>",
+                    Text = "plain text email on the job"
+                };
 
+                madrilTest.SendEmailAsync(new SendEmailRequest { Message = message }, SendEmailHandler);
+                Console.WriteLine("5");
+               
                 Console.ReadLine();
             }
             catch (Exception error)
@@ -134,15 +151,15 @@ namespace MandrilDotNet
 
         public static void PingHandler(string response)
         {
-            if (response != null && "\"PONG!\"".Equals(response))
+            if (response != null && "PONG!".Equals(response))
                 Console.WriteLine("Ping Success");
             else
                 Console.WriteLine("Ping Failure");
         }
 
-        public static void InfoHandler(InfoResponse info)
+        public static void InfoHandler(GetInfoResponse getInfo)
         {
-            Console.WriteLine("{0} has an hourly quota of {1} emails", info.Username, info.HourlyQuota);
+            Console.WriteLine("{0} has an hourly quota of {1} emails", getInfo.Username, getInfo.HourlyQuota);
         }
 
         private static void SenderDataHandler(List<SenderDataResponse> senderDataResponses)
@@ -150,6 +167,14 @@ namespace MandrilDotNet
             foreach (var sender in senderDataResponses)
             {
                 Console.WriteLine("Sender:{0} Create Date:{1} Opens:{2}", sender.Address, sender.CreatedAt, sender.Opens);
+            }
+        }
+
+        private static void SendEmailHandler(List<SendEmailResponse> sendResponses)
+        {
+           foreach (var sendEmailResponse in sendResponses)
+            {
+                Console.WriteLine("Email send results To:{0} Status:{1}", sendEmailResponse.Email, sendEmailResponse.Status);
             }
         }
     }

@@ -9,6 +9,7 @@ namespace MandrillWrapper.Utilities
     class CustomJsonSerializer : ISerializer
     {
         private readonly DataContractJsonSerializer _serializer;
+       
 
         public string Serialize(object obj)
         {
@@ -17,6 +18,13 @@ namespace MandrillWrapper.Utilities
             string json = Encoding.UTF8.GetString(memoryStream.ToArray());
             memoryStream.Close();
             return json;
+        }
+
+        public object Deserialize(string json)
+        {
+            var memosoryStream = new MemoryStream(Encoding.UTF8.GetBytes(json));
+            var results = _serializer.ReadObject(memosoryStream);
+            return results;
         }
 
         public string RootElement { get; set; }

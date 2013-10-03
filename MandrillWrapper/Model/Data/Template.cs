@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace MandrillWrapper.Model.Data
 {
@@ -46,12 +47,12 @@ namespace MandrillWrapper.Model.Data
         public string PublishText { get; set; }
 
         [DataMember(Name = "published_at")]
-        public string PublishedAt { get; set; }
+        public DateTime PublishedAt { get; set; }
 
         [DataMember(Name = "created_at")]
-        public string CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         [DataMember(Name = "updated_at")]
-        public string UpdatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }
