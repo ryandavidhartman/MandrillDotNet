@@ -1,11 +1,10 @@
 ﻿using System.Runtime.Serialization;
 using MandrillWrapper.Model.Data;
-using ServiceStack.ServiceHost;
 
 namespace MandrillWrapper.Model.Requests
 {
     [DataContract(Name = "post_template_request")]
-    public class PostTemplateRequest : IRequest, IReturn<Template>
+    public class PostTemplateRequest : IRequest
     {
         [DataMember(Name = "key")]
         public string Key { get; set; }

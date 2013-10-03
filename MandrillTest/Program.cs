@@ -17,11 +17,11 @@ namespace MandrilDotNet
 
             try
             {
-                var madrilTest = new MandrillAPI("uKVPH3OmNPw4h-iw0PSuHA", "https://mandrillapp.com/api/1.0");
+                var madrilTest = new MandrillAPI("uKVPH3OmNPw4h-iw0PSuHA", "http://mandrillapp.com/api/1.0");
 
 
-                //var ping = madrilTest.Ping();
-                //Console.WriteLine("Ping returns: " + ping);
+                var ping = madrilTest.Ping(new PingRequest());
+                Console.WriteLine("Ping returns: " + ping);
 
                 //var info = madrilTest.Info();
                 //Console.WriteLine(info.Username);
@@ -46,8 +46,8 @@ namespace MandrilDotNet
                     };
 
 
-                var response = madrilTest.AddTemplate(newTemplate);
-                Console.WriteLine(response.Slug);
+             //   var response = madrilTest.AddTemplate(newTemplate);
+             //   Console.WriteLine(response.Slug);
 
                 var templates = madrilTest.GetTemplates(new GetTemplatesRequest());
                 foreach (var templateInfo in templates)
@@ -149,7 +149,7 @@ namespace MandrilDotNet
         {
             foreach (var sender in senderDataResponses)
             {
-                Console.WriteLine(string.Format("Sender:{0} Create Date:{1} Opens:{2}", sender.Address, sender.CreatedAt, sender.Opens));
+                Console.WriteLine("Sender:{0} Create Date:{1} Opens:{2}", sender.Address, sender.CreatedAt, sender.Opens);
             }
         }
     }

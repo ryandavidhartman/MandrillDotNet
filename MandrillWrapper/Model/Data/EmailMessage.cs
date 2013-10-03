@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using ServiceStack.Text;
+using RestSharp;
 
 namespace MandrillWrapper.Model.Data
 {

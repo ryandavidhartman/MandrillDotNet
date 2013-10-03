@@ -1,13 +1,22 @@
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using MandrillWrapper.Model.Data;
 
 namespace MandrillWrapper.Model.Requests
 {
-    public class SendEmailWithTemplateRequest
+    [DataContract(Name = "send_email_with_template_request")]
+    public class SendEmailWithTemplateRequest : IRequest
     {
-        public string key { get; set; }
-        public string template_name { get; set; }
-        public List<TemplateContent> template_content { get; set; }
-        public EmailMessage message { get; set; }
+        [DataMember(Name = "key")]
+        public string Key { get; set; }
+
+        [DataMember(Name = "template_name")]
+        public string TemplateName { get; set; }
+
+        [DataMember(Name = "template_content")]
+        public List<TemplateContent> TemplateContent { get; set; }
+
+        [DataMember(Name = "message")]
+        public EmailMessage Message { get; set; }
     }
 }
