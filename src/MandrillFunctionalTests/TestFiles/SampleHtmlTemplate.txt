@@ -1,0 +1,11 @@
+﻿<p>Dear *|CUSTOMERNAME|*,</p>
+<p>   Thank you for your purchase on *|ORDERDATE|* from Pump Alarm. 
+    We appreciate your business and have included a copy of your invoice below.</p>
+
+<p>*|INVOICEDETAILS|*</p>
+<p>Please let us know if you have further questions.</p>
+<p>    -- Pump Alarm.Com</p>
+    
+<div mc:edit="footer">
+    Company contact information will go here.
+</div>

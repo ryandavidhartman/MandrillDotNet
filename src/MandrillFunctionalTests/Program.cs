@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using MandrillWrapper;
 using MandrillWrapper.Model.Data;
 using MandrillWrapper.Model.Requests;
@@ -26,7 +27,6 @@ namespace MandrilDotNet
 
         }
 
-
         static void SynchronousAPICalls()
         {
             string key = ConfigurationManager.AppSettings["MandrillKey"];
@@ -35,6 +35,8 @@ namespace MandrilDotNet
             string fromDisplayName = ConfigurationManager.AppSettings["MandrillFromEmailDisplay"];
             string toEmail = ConfigurationManager.AppSettings["MandrillToEmail"];
             string toDisplayName = ConfigurationManager.AppSettings["MandrillToEmailDisplay"];
+            string sampleTemplateHtml = ConfigurationManager.AppSettings["MandrillSampleTemplateHtml"];
+            string sampleTemplateText = ConfigurationManager.AppSettings["MandrillSampleTemplateText"];
             
             var madrilTest = new Mandrill(key, url);
 
@@ -55,38 +57,7 @@ namespace MandrilDotNet
                 Console.WriteLine("Sender:{0} Create Date:{1} Opens:{2}", sender.Address, sender.CreatedAt, sender.Opens);
             }
 
-
-            // 4 Create a new template
-            var newTemplate = new PostTemplateRequest
-            {
-                TemplateName = "Dummy Template",
-                FromEmail = fromEmail,
-                FromName = fromDisplayName,
-                Subject = "My fancy template",
-                Code = "<strong>Here is some html for the email body</strong>",
-                Text = "Here is some plain text for the body",
-                Publish = true
-            };
-
-            var response = madrilTest.PostTemplate(newTemplate);
-            Console.WriteLine(response.Slug);
-
-            // 5 get a list of all templates
-            var templates = madrilTest.GetTemplates(new GetTemplatesRequest());
-            foreach (var templateInfo in templates)
-            {
-                Console.WriteLine("Template Name: {0} Slug: {1}", templateInfo.TemplateName, templateInfo.Slug);
-            }
-
-            // 6 Update a template
-            response = madrilTest.PutTemplate(new PutTemplateRequest { TemplateName = "Dummy Template", Code = "<strong>Updated!</strong>" });
-            Console.WriteLine(response.Code);
-
-            // 7 Delete a template
-            var results = madrilTest.DeleteTemplate(new DeleteTemplateRequest { TemplateName = "Dummy Template" });
-            Console.WriteLine(results.TemplateName + " was deleted");
-
-            //8 Send a simple email message
+            // 4 Send a simple email message
 
             var message1 = new EmailMessage
             {
@@ -102,9 +73,31 @@ namespace MandrilDotNet
             {
                 Console.WriteLine("Email send results: " + sendEmailResponse.Status);
             }
+            
 
+            // 5 Create a new template
+            var newTemplate = new PostTemplateRequest
+            {
+                TemplateName = "Dummy Template",
+                FromEmail = fromEmail,
+                FromName = fromDisplayName,
+                Subject = "My fancy template",
+                Code = GetTextFromFile(sampleTemplateHtml),
+                Text = GetTextFromFile(sampleTemplateText),
+                Publish = true
+            };
 
-            //9 Send a templated email with merge variables and and mc:edit region for the footer
+            var response = madrilTest.PostTemplate(newTemplate);
+            Console.WriteLine(response.Slug);
+
+            // 5 get a list of all templates
+            var templates = madrilTest.GetTemplates(new GetTemplatesRequest());
+            foreach (var templateInfo in templates)
+            {
+                Console.WriteLine("Template Name: {0} Slug: {1}", templateInfo.TemplateName, templateInfo.Slug);
+            }
+
+            // 6 Send a templated email with merge variables and and mc:edit region for the footer
 
             var message2 = new EmailMessage
             {
@@ -137,7 +130,7 @@ namespace MandrilDotNet
             {
                 Message = message2,
                 TemplateContent = templateContents,
-                TemplateName = "InvoiceTemplate"
+                TemplateName = "Dummy Template"
             };
 
             var sendResponses = madrilTest.SendEmail(request);
@@ -147,6 +140,15 @@ namespace MandrilDotNet
             {
                 Console.WriteLine("Templated email send results: " + sendEmailResponse.Status);
             }
+
+
+            // 8 Update a template
+            response = madrilTest.PutTemplate(new PutTemplateRequest { TemplateName = "Dummy Template", Code = "<strong>Updated!</strong>" });
+            Console.WriteLine(response.Code);
+
+            // 9 Delete a template
+            var results = madrilTest.DeleteTemplate(new DeleteTemplateRequest { TemplateName = "Dummy Template" });
+            Console.WriteLine(results.TemplateName + " was deleted");
             
         }
 
@@ -230,6 +232,24 @@ namespace MandrilDotNet
            foreach (var sendEmailResponse in sendResponses)
             {
                 Console.WriteLine("Email send results To:{0} Status:{1}", sendEmailResponse.Email, sendEmailResponse.Status);
+            }
+        }
+
+        //helpers
+        private static string GetTextFromFile(string filename)
+        {
+            try
+            {
+                using (var sr = new StreamReader(filename))
+                {
+                    return sr.ReadToEnd();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The file: {0} could not be read.", filename);
+                Console.WriteLine(e.Message);
+                throw;
             }
         }
     }

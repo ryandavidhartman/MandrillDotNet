@@ -1,0 +1,9 @@
+﻿Dear *|FNAME|*,
+   Thank you for your purchase on *|ORDERDATE|* from Pump Alarm. 
+We appreciate your business and have included a copy of your invoice below.
+
+*|INVOICEDETAILS|*
+
+Please let us know if you have further questions.
+
+     -- Pump Alarm.Com
