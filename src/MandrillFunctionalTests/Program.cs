@@ -133,7 +133,7 @@ namespace MandrilDotNet
                 TemplateName = "Dummy Template"
             };
 
-            var sendResponses = madrilTest.SendEmail(request);
+            var sendResponses = madrilTest.SendEmailWithTemplate(request);
 
 
             foreach (var sendEmailResponse in sendResponses)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
 using MandrillAPI.Model.Data;
 using MandrillAPI.Model.Requests;
 using MandrillAPI.Model.Responses;
@@ -24,8 +25,8 @@ namespace MandrillAPI
         }
 
         public bool Ping(PingRequest request)
-        {
-            var response = Post<string>("/users/ping.json", request);
+        { 
+            var response = AsyncWrapper<PingRequest, string>(request, PingAsync);
             return response != null && "PONG!".Equals(response);
         }
 
@@ -36,9 +37,7 @@ namespace MandrillAPI
 
         public GetInfoResponse GetInfo(GetInfoRequest request)
         {
-           
-            var response = Post<GetInfoResponse>("/users/info.json", request);
-            return response;
+            return AsyncWrapper<GetInfoRequest, GetInfoResponse>(request, GetInfoAsync);
         }
 
         public void GetInfoAsync(GetInfoRequest request, Action<GetInfoResponse> callBack)
@@ -48,8 +47,7 @@ namespace MandrillAPI
 
         public List<SenderDataResponse> GetSenderData(GetSenderDataRequest request)
         {
-            var senderData = Post<List<SenderDataResponse>>("/users/senders.json", request );
-            return senderData;
+            return AsyncWrapper<GetSenderDataRequest, List<SenderDataResponse>>(request, GetSenderDataAsync);
         }
 
         public void GetSenderDataAsync(GetSenderDataRequest request, Action<List<SenderDataResponse>> callback)
@@ -59,8 +57,7 @@ namespace MandrillAPI
 
         public List<Template> GetTemplates(GetTemplatesRequest request)
         {
-            var templates = Post<List<Template>>("/templates/list.json", request);
-            return templates;
+            return AsyncWrapper<GetTemplatesRequest, List<Template>>(request, GetTemplatesAsync);
         }
 
         public void GetTemplatesAsync(GetTemplatesRequest request, Action<List<Template>> callback)
@@ -70,9 +67,7 @@ namespace MandrillAPI
 
         public Template PostTemplate(PostTemplateRequest request)
         {
-            var response = Post<Template>("/templates/add.json", request);
-            return response;
-
+            return AsyncWrapper<PostTemplateRequest, Template>(request, PostTemplateAsync);
         }
 
         public void PostTemplateAsync(PostTemplateRequest request, Action<Template> callback)
@@ -82,8 +77,7 @@ namespace MandrillAPI
 
         public Template PutTemplate(PutTemplateRequest request)
         {
-            var response = Post<Template>("/templates/update.json", request);
-            return response;
+            return AsyncWrapper<PutTemplateRequest, Template>(request, PutTemplateAsync);
         }
 
         public void PutTemplateAsync(PutTemplateRequest request, Action<Template> callback)
@@ -93,19 +87,17 @@ namespace MandrillAPI
 
         public Template DeleteTemplate(DeleteTemplateRequest request)
         {
-            var response = Post<Template>("/templates/delete.json", request);
-            return response;
+            return AsyncWrapper<DeleteTemplateRequest, Template>(request, DeleteTemplateAsync);
         }
 
-        public void DeleteTemplateAsync(PostTemplateRequest request, Action<Template> callback)
+        public void DeleteTemplateAsync(DeleteTemplateRequest request, Action<Template> callback)
         {
             PostAsync("/templates/delete.json", request, callback);
         }
 
         public List<SendEmailResponse> SendEmail(SendEmailRequest request)
         {
-            var response = Post<List<SendEmailResponse>>("/messages/send.json", request);
-            return response;
+            return AsyncWrapper<SendEmailRequest, List<SendEmailResponse>>(request, SendEmailAsync);
         }
 
         public void SendEmailAsync(SendEmailRequest request, Action<List<SendEmailResponse>> callback)
@@ -113,13 +105,12 @@ namespace MandrillAPI
             PostAsync("/messages/send.json", request, callback);
         }
 
-        public List<SendEmailResponse> SendEmail(SendEmailWithTemplateRequest request)
+        public List<SendEmailResponse> SendEmailWithTemplate(SendEmailWithTemplateRequest request)
         {
-            var response = Post<List<SendEmailResponse>>("/messages/send-template.json", request);
-            return response;
+            return AsyncWrapper<SendEmailWithTemplateRequest, List<SendEmailResponse>>(request, SendEmailWithTemplateAsync);
         }
 
-        public void SendEmail(SendEmailWithTemplateRequest request, Action<List<SendEmailResponse>> callback)
+        public void SendEmailWithTemplateAsync(SendEmailWithTemplateRequest request, Action<List<SendEmailResponse>> callback)
         {
             PostAsync("/messages/send-template.json", request, callback);
         }
@@ -130,35 +121,6 @@ namespace MandrillAPI
         {
             if (string.IsNullOrEmpty(request.Key))
                 request.Key = _key;
-        }
-
-        public T Post<T>(string path, IRequest data)
-        {
-            var request = new RestRequest(path, Method.POST) { RequestFormat = DataFormat.Json, JsonSerializer = new CustomJsonSerializer(data.GetType()) };
-
-            AddKeyToRequest(data);
-            request.AddBody(data);
-
-            var response = RestClient.Execute(request);
-
-            //if internal server error, then mandrill should return a custom error.
-            if (response.StatusCode == HttpStatusCode.InternalServerError)
-            {
-                var error = JsonConvert.DeserializeObject<ErrorResponse>(response.Content);
-
-
-                //JSON.Parse<ErrorResponse>(response.Content);
-                var ex = new MandrillException(error, string.Format("Post failed {0}, Raw Results: {1}", path, response.Content));
-                throw ex;
-            }
-
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                //used to throw errors not returned from the server, such as no response, etc.
-                throw response.ErrorException;
-            }
-
-            return JsonConvert.DeserializeObject<T>(response.Content);
         }
 
         public RestRequestAsyncHandle PostAsync<T>(string path, IRequest data, Action<T> callBack)
@@ -190,6 +152,16 @@ namespace MandrillAPI
 
             return handle;
         }
-        
+
+        public TV AsyncWrapper<T, TV>(T request, Action<T, Action<TV>> asynPoster) where TV : class
+        {
+            TV response = null;
+            var manualResetEvent = new ManualResetEvent(false);
+
+            asynPoster(request, r => { response = r; manualResetEvent.Set(); });
+
+            manualResetEvent.WaitOne();
+            return response;
+        }
     }
 }
