@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using MandrillWrapper;
-using MandrillWrapper.Model.Data;
-using MandrillWrapper.Model.Requests;
-using MandrillWrapper.Model.Responses;
+using MandrillAPI;
+using MandrillAPI.Model.Data;
+using MandrillAPI.Model.Requests;
+using MandrillAPI.Model.Responses;
 
 namespace MandrilDotNet
 {

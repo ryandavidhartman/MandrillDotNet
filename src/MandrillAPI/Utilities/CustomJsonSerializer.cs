@@ -4,7 +4,7 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using RestSharp.Serializers;
 
-namespace MandrillWrapper.Utilities
+namespace MandrillAPI.Utilities
 {
     class CustomJsonSerializer : ISerializer
     {

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using RestSharp;
 
-namespace MandrillWrapper.Model.Data
+namespace MandrillAPI.Model.Data
 {
     [DataContract(Name = "email_message")]
     public class EmailMessage

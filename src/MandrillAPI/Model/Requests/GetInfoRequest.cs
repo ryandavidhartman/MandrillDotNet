@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
-using MandrillWrapper.Model.Responses;
+using MandrillAPI.Model.Responses;
 
-namespace MandrillWrapper.Model.Requests
+namespace MandrillAPI.Model.Requests
 {
     [DataContract(Name = "info_request")]
     public class GetInfoRequest : IRequest

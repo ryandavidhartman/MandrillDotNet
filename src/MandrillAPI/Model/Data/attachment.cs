@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace MandrillWrapper.Model.Data
+namespace MandrillAPI.Model.Data
 {
     [DataContract(Name = "attachment")]
     public class Attachment

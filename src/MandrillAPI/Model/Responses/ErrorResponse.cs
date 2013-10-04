@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace MandrillWrapper.Model.Responses
+namespace MandrillAPI.Model.Responses
 {
     [DataContract(Name = "error_response")]
     public class ErrorResponse

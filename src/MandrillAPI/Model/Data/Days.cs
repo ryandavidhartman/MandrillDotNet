@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace MandrillWrapper.Model.Data
+namespace MandrillAPI.Model.Data
 {
     [DataContract(Name = "days")]
     public class Days

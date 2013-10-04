@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace MandrillWrapper.Model.Data
+namespace MandrillAPI.Model.Data
 {
     [DataContract(Name = "email_address")]
     public class EmailAddress

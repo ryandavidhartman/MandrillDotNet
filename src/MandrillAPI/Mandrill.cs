@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using MandrillWrapper.Model.Data;
-using MandrillWrapper.Model.Requests;
-using MandrillWrapper.Model.Responses;
-using MandrillWrapper.Utilities;
+using MandrillAPI.Model.Data;
+using MandrillAPI.Model.Requests;
+using MandrillAPI.Model.Responses;
+using MandrillAPI.Utilities;
 using RestSharp;
 using Newtonsoft.Json;
 
-namespace MandrillWrapper
+namespace MandrillAPI
 {
     public class Mandrill
     {

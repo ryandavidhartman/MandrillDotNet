@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using MandrillWrapper.Model.Data;
+using MandrillAPI.Model.Data;
 
-namespace MandrillWrapper.Model.Requests
+namespace MandrillAPI.Model.Requests
 {
     [DataContract(Name = "send_email_with_template_request")]
     public class SendEmailWithTemplateRequest : IRequest

@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MandrillAPI", "src\"MandrillAPI\MandrillAPI.csproj", "{3A3F8D33-D55C-48B3-83F3-E1DB429295E2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MandrillFunctionalTests", "src\MandrillFunctionalTests\MandrillFunctionalTests.csproj", "{E2B8B280-25B1-460B-B5F3-2237BD8B87A8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DB65EADC-74FE-4C2B-B297-1EF8EA30CE70}"
@@ -14,25 +12,30 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DB65EA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{47A46448-D3FD-4523-A4CF-01A255D8D761}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mandrill", "Mandrill", "{40541F04-A47C-4CD7-A69C-326A18718333}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MandrillAPI", "src\MandrillAPI\MandrillAPI.csproj", "{3A3F8D33-D55C-48B3-83F3-E1DB429295E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3A3F8D33-D55C-48B3-83F3-E1DB429295E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A3F8D33-D55C-48B3-83F3-E1DB429295E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A3F8D33-D55C-48B3-83F3-E1DB429295E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A3F8D33-D55C-48B3-83F3-E1DB429295E2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E2B8B280-25B1-460B-B5F3-2237BD8B87A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E2B8B280-25B1-460B-B5F3-2237BD8B87A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2B8B280-25B1-460B-B5F3-2237BD8B87A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2B8B280-25B1-460B-B5F3-2237BD8B87A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A3F8D33-D55C-48B3-83F3-E1DB429295E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A3F8D33-D55C-48B3-83F3-E1DB429295E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A3F8D33-D55C-48B3-83F3-E1DB429295E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A3F8D33-D55C-48B3-83F3-E1DB429295E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E2B8B280-25B1-460B-B5F3-2237BD8B87A8} = {47A46448-D3FD-4523-A4CF-01A255D8D761}
+		{3A3F8D33-D55C-48B3-83F3-E1DB429295E2} = {40541F04-A47C-4CD7-A69C-326A18718333}
 	EndGlobalSection
 EndGlobal

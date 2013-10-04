@@ -51,7 +51,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MandrillWrapper\MandrillAPI.csproj">
+    <ProjectReference Include="..\MandrillAPI\MandrillAPI.csproj">
       <Project>{3a3f8d33-d55c-48b3-83f3-e1db429295e2}</Project>
       <Name>MandrillAPI</Name>
     </ProjectReference>

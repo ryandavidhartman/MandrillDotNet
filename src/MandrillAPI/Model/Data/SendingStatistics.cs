@@ -1,7 +1,7 @@
 ﻿
 using System.Runtime.Serialization;
 
-namespace MandrillWrapper.Model
+namespace MandrillAPI.Model.Data
 {
     [DataContract(Name="sending_stats")]
     public class SendingStatistics

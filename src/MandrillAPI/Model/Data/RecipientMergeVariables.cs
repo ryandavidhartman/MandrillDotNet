@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace MandrillWrapper.Model.Data
+namespace MandrillAPI.Model.Data
 {
 
     [DataContract(Name = "rcpt_merge_var")]

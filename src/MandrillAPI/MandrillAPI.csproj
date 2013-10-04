@@ -7,8 +7,8 @@
     <ProjectGuid>{3A3F8D33-D55C-48B3-83F3-E1DB429295E2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MandrillWrapper</RootNamespace>
-    <AssemblyName>MandrillWrapper</AssemblyName>
+    <RootNamespace>MandrillAPI</RootNamespace>
+    <AssemblyName>MandrillAPI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>

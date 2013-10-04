@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MandrillWrapper.Model.Responses
+namespace MandrillAPI.Model.Responses
 {
     public class MandrillException : Exception
     {

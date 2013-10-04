@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace MandrillWrapper.Model.Requests
+namespace MandrillAPI.Model.Requests
 {
     [DataContract(Name = "ping_request")]
     public class PingRequest : IRequest

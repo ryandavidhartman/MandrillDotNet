@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace MandrillWrapper.Model.Requests
+namespace MandrillAPI.Model.Requests
 {
     [DataContract(Name = "delete_template_request")]
     public class DeleteTemplateRequest : IRequest

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using MandrillWrapper.Model.Data;
+using MandrillAPI.Model.Data;
 
-namespace MandrillWrapper.Model.Responses
+namespace MandrillAPI.Model.Responses
 {
     [DataContract(Name="sender_data")]
     public class SenderDataResponse

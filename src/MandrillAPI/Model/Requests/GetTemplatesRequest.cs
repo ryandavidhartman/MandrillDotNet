@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace MandrillWrapper.Model.Requests
+namespace MandrillAPI.Model.Requests
 {
     [DataContract(Name = "templates_request")]
     public class GetTemplatesRequest : IRequest
