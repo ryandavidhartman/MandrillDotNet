@@ -50,9 +50,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MandrillWrapper\MandrillWrapper.csproj">
+    <ProjectReference Include="..\MandrillWrapper\MandrillAPI.csproj">
       <Project>{3a3f8d33-d55c-48b3-83f3-e1db429295e2}</Project>
-      <Name>MandrillWrapper</Name>
+      <Name>MandrillAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

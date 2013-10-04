@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MandrillWrapper", "src\MandrillWrapper\MandrillWrapper.csproj", "{3A3F8D33-D55C-48B3-83F3-E1DB429295E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MandrillAPI", "src\MandrillWrapper\MandrillAPI.csproj", "{3A3F8D33-D55C-48B3-83F3-E1DB429295E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MandrillTest", "src\MandrillTest\MandrillTest.csproj", "{E2B8B280-25B1-460B-B5F3-2237BD8B87A8}"
 EndProject
@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DB65EA
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{47A46448-D3FD-4523-A4CF-01A255D8D761}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,5 +31,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E2B8B280-25B1-460B-B5F3-2237BD8B87A8} = {47A46448-D3FD-4523-A4CF-01A255D8D761}
 	EndGlobalSection
 EndGlobal

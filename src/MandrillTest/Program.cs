@@ -19,7 +19,7 @@ namespace MandrilDotNet
 
             try
             {
-                var madrilTest = new MandrillAPI("uKVPH3OmNPw4h-iw0PSuHA", "http://mandrillapp.com/api/1.0");
+                var madrilTest = new Mandrill("uKVPH3OmNPw4h-iw0PSuHA", "http://mandrillapp.com/api/1.0");
 
                 /*
                 var ping = madrilTest.Ping(new PingRequest());
